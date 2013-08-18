@@ -21,9 +21,9 @@ fieldset{
     -webkit-border-radius: 10px;
     border-radius: 10px;
 
-    -webkit-box-shadow: 0px 2px 5px rgba(50, 50, 50, 0.35);
-    -moz-box-shadow:    0px 2px 5px rgba(50, 50, 50, 0.35);
-    box-shadow:         0px 2px 5px rgba(50, 50, 50, 0.35);
+    -webkit-box-shadow: 0px 1px 5px rgba(50, 50, 50, 0.35);
+    -moz-box-shadow:    0px 1px 5px rgba(50, 50, 50, 0.35);
+    box-shadow:         0px 1px 5px rgba(50, 50, 50, 0.35);
 }
 
 .layout{
@@ -60,4 +60,9 @@ input{
 
 .accordion-content-collapsed{
     height:0;
+}
+
+#submit{
+    zoom:200%
+
 }

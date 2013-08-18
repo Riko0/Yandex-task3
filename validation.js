@@ -142,4 +142,5 @@
   form.addEventListener('blur', onFieldChange, true);
   form.resume.addEventListener('change', onFieldChange, false);
 
+  validate();
 })();
