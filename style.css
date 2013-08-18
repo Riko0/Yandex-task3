@@ -9,11 +9,11 @@ a{
     border-color: #ccc;
 }
 body{
-    font:.8em Arial,Helvetica,sans-serif;
+    font:.8em Helvetica,Arial,sans-serif;
 }
 
 fieldset{
-    border:0,5px;
+    border:0.5px;
     border-color: #cc9 ;
     margin-bottom: 7px;
 
@@ -21,18 +21,21 @@ fieldset{
     -webkit-border-radius: 10px;
     border-radius: 10px;
 
-    -webkit-box-shadow: 0px 2px 5px rgba(50, 50, 50, 0.75);
-    -moz-box-shadow:    0px 2px 5px rgba(50, 50, 50, 0.75);
-    box-shadow:         0px 2px 5px rgba(50, 50, 50, 0.75);
+    -webkit-box-shadow: 0px 2px 5px rgba(50, 50, 50, 0.35);
+    -moz-box-shadow:    0px 2px 5px rgba(50, 50, 50, 0.35);
+    box-shadow:         0px 2px 5px rgba(50, 50, 50, 0.35);
 }
 
-#layout{
+.layout{
     max-width: 800px;
     margin:auto;
 }
 
 input{
     width:100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 .input-notwide{
@@ -43,10 +46,18 @@ input{
     margin-bottom: 2px;
 }
 
-.accordion-content{
-    display:none;
-}
-
 .accordion{
     width:100%;
+}
+
+.accordion-content{
+    overflow:hidden;
+    transition:height 0.2s ease-in;
+    -moz-transition:height 0.2s ease-in;
+    -webkit-transition:height 0.2s ease-in;
+
+}
+
+.accordion-content-collapsed{
+    height:0;
 }

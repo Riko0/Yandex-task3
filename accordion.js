@@ -20,7 +20,7 @@ function changeEnglish(){
 }
 
 function open(o){
-    document.getElementById(o+"-content").style.display="inline";
+    document.getElementById(o+"-content").style.display="block";
 }
 
 function close(o){

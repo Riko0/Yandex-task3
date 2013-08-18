@@ -6,48 +6,46 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<div id="layout">
+<div class="layout">
     <h2>Заполните анкету</h2>
   <form id="form">
+  <div id="accordeon-layout">
     <fieldset>
-      <div class="accordion" onclick="changeState('birthyear')">
-          <label for="birthyear"><p><b>Вопрос 1</b>
-          <span id="birthyear-error"></span></p></label></div>
+      <div class="accordion-title">
+          <label for="birthyear"><p><b>Вопрос 1</b></p></label></div>
 
-      <div class="accordion-content" id="birthyear-content">
+      <div class="accordion-content">
             <label for="birthyear"><b>Год рождения.</b></label>
             <input id="birthyear" type="text" data-errormessage="Полностью введите свой год рождения.
                 Он не может быть меньше 1900 и больше текущего года"
                    data-label="Вопрос&nbsp1" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('town')">
-            <label for="town"><p><b>Вопрос 2</b>
-                <span id="town-error"></span></p></label></div>
-        <div class="accordion-content" id="town-content">
+        <div class="accordion-title">
+            <label for="town"><p><b>Вопрос 2</b></p></label></div>
+        <div class="accordion-content">
             <label for="town"><b>Город, в котором вы живете.</b></label>
             <input id="town" type="text" data-label="Вопрос&nbsp2" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('university')" ><label for="university">
-            <p><b>Вопрос 3</b> <span id="university-error"></span></p></label></div>
-        <div class="accordion-content" id="university-content">
+        <div class="accordion-title"><label for="university">
+            <p><b>Вопрос 3</b> </p></label></div>
+        <div class="accordion-content">
             <label for="university"><b>Вуз, факультет, специальность, кафедра.</b></label>
             <input id="university" type="text" data-label="Вопрос&nbsp3" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('graduationyear')" >
-            <label for="graduationyear"><p><b>Вопрос 4</b>
-            <span id="graduationyear-error"></span></p></label></div>
-        <div class="accordion-content" id="graduationyear-content">
+        <div class="accordion-title">
+            <label for="graduationyear"><p><b>Вопрос 4</b></p></label></div>
+        <div class="accordion-content">
             <label for="graduationyear"><b>Год окончания вуза.</b></label>
             <input id="graduationyear" type="text" data-label="Вопрос&nbsp4" 
                data-errormessage="Введите год окончания вуза в формате /yyyy" ></div>
     </fieldset>
     <fieldset>
-      <div class="accordion" onclick="changeEnglish()">
+      <div class="accordion-title">
          <p><b>Вопрос 5</b></p></div>
-      <div class="accordion-content" id="english-content">
+      <div class="accordion-content">
          <label><b>Уровень владения английским:</b></label><br>
          <input type="radio" name="english" class="input-notwide" value="1" >начальный;<br>
          <input type="radio" name="english" class="input-notwide" value="2" checked>средний;<br>
@@ -55,64 +53,61 @@
          <textarea name="english-text"></textarea></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('expectations')">
-            <label for="expectations"><p><b>Вопрос 6</b>
-            <span id="expectations-error"></span></p></label></div>
+        <div class="accordion-title">
+            <label for="expectations"><p><b>Вопрос 6</b></p></label></div>
         <div class="accordion-content"  id="expectations-content">
             <label for="expectations"><b>Чего вы ожидаете от участия в Школе.</b></label>
             <input id="expectations" type="text" data-label="Вопрос&nbsp6" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('infosource')">
-            <label for="infosource"><p><b>Вопрос 7</b>
-                <span id="infosource-error"></span></p></label></div>
-        <div class="accordion-content" id="infosource-content">
+        <div class="accordion-title">
+            <label for="infosource"><p><b>Вопрос 7</b></p></label></div>
+        <div class="accordion-content">
             <label for="infosource"><b>Откуда вы о нас узнали?</b></label>
             <input id="infosource" type="text" data-label="Вопрос&nbsp7" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('timeforwork')">
-            <label for="timeforwork"><p><b>Вопрос 8</b>
-                <span id="timeforwork-error"></span></p></label></div>
-        <div class="accordion-content" id="timeforwork-content">
+        <div class="accordion-title">
+            <label for="timeforwork"><p><b>Вопрос 8</b></p></label></div>
+        <div class="accordion-content">
             <label for="timeforwork"><b>Сколько времени вы готовы
                 уделять стажировке или работе в Яндексе?</b></label>
             <input id="timeforwork" type="text" data-label="Вопрос&nbsp8" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('experience')">
+        <div class="accordion-title">
             <label for="experience"><p><b>Вопрос 9</b></p></label></div>
-        <div class="accordion-content" id="experience-content">
+        <div class="accordion-content">
             <label for="experience"><b>Расскажите о своем опыте разработки.</b></label>
             <input id="experience" type="text" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('workingexperience')">
+        <div class="accordion-title">
             <label for="workingexperience"><p><b>Вопрос 10</b></p></label></div>
-        <div class="accordion-content" id="workingexperience-content">
+        <div class="accordion-content">
             <label for="workingexperience"><b>Если вы где-нибудь работали, расскажите о своем опыте, должности,
                 обязанностях и о наличии опыта работы в команде.</b></label>
             <input id="workingexperience" type="text" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('usingproductsexperience')">
+        <div class="accordion-title">
             <label for="usingproductsexperience"><p><b>Вопрос 11</b></p></label></div>
-        <div class="accordion-content" id="usingproductsexperience-content">
+        <div class="accordion-content">
             <label for="usingproductsexperience"><b>Перечислите, какими программными продуктами вы пользуетесь -
             от редактора до специализировнных утилит и почему именно ими.</b></label>
             <input id="usingproductsexperience" type="text" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('usingterminal')">
+        <div class="accordion-title">
             <label for="usingterminal"><p><b>Вопрос 12</b></p></label></div>
-        <div class="accordion-content" id="usingterminal-content">
+        <div class="accordion-content">
             <label for="usingterminal"><b>Пользуетесь ли вы командной строкой? Как именно?</b></label>
             <input id="usingterminal" type="text" /></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('task1')">
-            <label for="task1"><p><b>Задание 1</b> <span id="task1-error"></span></p></label></div>
-        <div class="accordion-content" id="task1-content">
+        <div class="accordion-title">
+            <label for="task1"><p><b>Задание 1</b></p></label></div>
+        <div class="accordion-content">
             <label for="task1"><p><b>Напишите на JavaScript функцию, которая выводит список всех чисел,
                 которые равны сумме факториалов своих цифр. Пример такого числа:</b></p>
                 <p>4! + 0! + 5! + 8! +5! = 40585</p>
@@ -122,9 +117,9 @@
                  data-errormessage="Введите корректную ссылку"/></div>
     </fieldset>
       <fieldset>
-          <div class="accordion" onclick="changeState('task2')">
-            <label for="task2"><p><b>Задание 2</b> <span id="task2-error"></span></p></label></div>
-          <div class="accordion-content" id="task2-content">
+          <div class="accordion-title">
+            <label for="task2"><p><b>Задание 2</b></p></label></div>
+          <div class="accordion-content">
             <label for="task2"><p><b>Вы — пилот грузового межгалактического корабля.
                  Ваша работа — перевозка грузов с одной планету на другую.
                  Грузоподъемность вашего корабля ограничена,
@@ -144,9 +139,9 @@
                  data-errormessage="Введите корректную ссылку"/></div>
     </fieldset>
     <fieldset>
-        <div class="accordion" onclick="changeState('task3')">
-            <label for="task3"><p><b>Задание 3</b> <span id="task3-error"></span></p></label></div>
-        <div class="accordion-content" id="task3-content">
+        <div class="accordion-title">
+            <label for="task3"><p><b>Задание 3</b></p></label></div>
+        <div class="accordion-content">
             <label for="task3"><p><b>Сверстайте форму-анкету с нашими заданиями для кандидатов.
                 Страница должна работать в следующих браузерах: MSIE (8, 9, 10),
                 Google Chrome (26, 27), Firefox (20, 21), Opera (12.15, 12.14),
@@ -171,11 +166,12 @@
             <input id="task3" type="text" data-label="Задание&nbsp3"
                     data-errormessage="Введите корректную ссылку"/></div>
     </fieldset>
+    </div>
     <hr class="separator"></hr>
     <h3>Расскажите о себе</h3>
     <fieldset>
         <label for="resume"><p class="paragraph-with-little-margin">
-            <b>Резюме</b> <span id="resume-error"></span></p></label>
+            <b>Резюме</b></p></label>
         <input id="resume" type="file" data-errormessage="Приложите свое резюме к форме" data-label="Резюме"/>
     </fieldset>
     <fieldset>
@@ -185,17 +181,17 @@
     </fieldset>
     <fieldset>
         <label for="name"><p class="paragraph-with-little-margin">
-            <b>Имя, фамилия</b> <span id="name-error"></span></p></label>
+            <b>Имя, фамилия</b></p></label>
         <input id="name" type="text" data-label="Имя,&nbspфамилия"/>
     </fieldset>
     <fieldset>
         <label for="telephone"><p class="paragraph-with-little-margin">
-            <b>Ваш телефон</b> <span id="telephone-error"></span></p></label>
+            <b>Ваш телефон</b></p></label>
         <input id="telephone" type="text" data-label="Ваш&nbspтелефон"/>
     </fieldset>
     <fieldset>
         <label for="email"><p class="paragraph-with-little-margin">
-            <b>Эл. почта</b> <span id="email-error"></span></p></label>
+            <b>Эл. почта</b></p></label>
         <input id="email" type="text" data-label="Эл.&nbspпочта"
                data-errormessage="Введите корректный адрес эл. почты."/>
     </fieldset>
@@ -226,7 +222,6 @@
             и будут обрабатываться исключительно для целей предложения
             мне вакансий группы компаний «ЯНДЕКС»,
             в соответствии с Федеральным законом «О персональных данных».</b><br>
-        <span id="agreement-error"></span>
     </fieldset>
     <fieldset>
       <input type="submit" id="submit" value="Отправить" class="input-notwide"/>
