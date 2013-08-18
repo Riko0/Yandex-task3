@@ -13,7 +13,9 @@ body{
 }
 
 fieldset{
-    border:0.5px;
+    padding: 10px;
+
+    border:solid 0.5px;
     border-color: #cc9 ;
     margin-bottom: 7px;
 
@@ -65,4 +67,8 @@ input{
 #submit{
     zoom:200%
 
+}
+
+.error{
+    color: #c00;
 }

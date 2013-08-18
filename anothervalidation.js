@@ -12,6 +12,7 @@
         this.validations={};
         this.submitElement=form.querySelector('input[type=submit]')||
             form.querySelector('submit');
+
     };
 
     Validation.prototype.addCheck = function(field, label, var_checkFunctions){
@@ -21,10 +22,19 @@
                 var_checkFunctions:
                 Array.prototype.slice.call(arguments, 2)
         };
+
+        var eventType=this.form[field].type=='checkbox'?'click':'blur';
+        listenEvent(this.form[field], eventType, this.onFieldBlur,this);
+        listenEvent(this.form[field], 'focus', this.onFieldFocus,this);
+
+        var errordiv=this.form[field].parentNode.querySelector('.error');
+        if (errordiv){
+            this.form[field].errordiv=errordiv;
+        }
     };
 
 
-    Validation.prototype.validate = function(){
+    Validation.prototype.getInvalidFields = function(){
         var invalidFields =[];
         var currentField;
         var currentCheck;
@@ -47,8 +57,31 @@
                 }
             }
         }
-        this.updateUI(invalidFields);
         return invalidFields;
+    };
+
+    Validation.prototype.onFieldBlur = function(evt){
+        evt=evt||window.event;
+        var target=evt.target||evt.srcElement;
+        var invalidFields=this.getInvalidFields();
+        this.updateUI(invalidFields);
+
+        var fieldError =getFieldError(target.id,invalidFields);
+        if (fieldError){
+            target.errordiv=displayError(target,fieldError);
+        }
+    };
+
+    Validation.prototype.onFieldFocus = function(evt){
+        evt=evt||window.event;
+        var target=evt.target||evt.srcElement;
+        if (target.errordiv){
+            removeError(target.errordiv);
+        }
+    };
+
+    Validation.prototype.validate = function(){
+        this.updateUI(this.getInvalidFields());
     };
 
     Validation.prototype.updateUI = function(invalidFields){
@@ -77,13 +110,50 @@
         return (field.checked)?'':'Вы должны принять условия';
     };
 
+    function displayError(target, msg){
+        var div = document.createElement('div');
+        div.className='error';
+        div.innerHTML=msg;
+        target.parentNode.insertBefore(div);
+        return div;
+    }
+
+    function removeError(div){
+        div.parentNode.removeChild(div);
+    }
+
     function getIndicatorHTML(invalidFields){
         var output=[];
-        for (i=0, l=invalidFields.length; i<l; i++){
-            output.push(invalidFields[i].label);
+        if (invalidFields.length!==0){
+            for (var i=0, l=invalidFields.length; i<l; i++){
+                output.push(invalidFields[i].label);
+            }
+            return 'Осталось заполнить: '+output.join(', ');
         }
-        return 'Осталось заполнить: '+output.join(', ');
+        return '';
     }
+
+    function getFieldError(field,invalidFields){
+        for (var i=0, l=invalidFields.length; i<l; i++){
+            if (field==invalidFields[i].field){
+                return invalidFields[i].message;
+            }
+        }
+        return null;
+    }
+
+    function listenEvent(element, eventType, handler, context){
+        var eventHandler = function(evt){
+            handler.call(context, evt);
+        };
+        if (element.addEventListener){
+            element.addEventListener(eventType, eventHandler);
+        }
+        else{
+            element.attachEvent('on'+eventType, eventHandler);
+        }
+    }
+
 
     window.Validation = Validation;
 })();
