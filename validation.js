@@ -1,146 +1,150 @@
-(function(){
-  var form = document.getElementById("form");
-  var invalidFieldsContainer=document.getElementById("invalid_fields");
+(function (){
+    var RegEx= {
+        NOT_EMPTY:/^\S+$/,
+        YEAR:(/^\d{4}$/),
+        URL:(/https?:\/\/[a-z.-_+0-9]+\.[a-z]{2,10}(\/\S+)?/),
+        EMAIL:(/^[\w-\._\+%]+@(?:[\w-]+\.)+[\w]{2,6}$/)
+    };
 
-  function validate(){
-    var invalidFields=[];
+    var Validation = function(form, indicator){
+        this.form=form;
+        this.indicator=indicator;
+        this.validations={};
+        this.submitElement=form.querySelector('input[type=submit]')||
+            form.querySelector('submit');
+    };
 
-    var birthyear=form.birthyear.value;
-    if (birthyear==''){
-        invalidFields.push($('#birthyear').data('label'));
-    }
-    else{
-       if (!(/^\d{4}$/.test(birthyear)) || (
-          (birthyear<1900) || (birthyear>new Date().getFullYear()))) {
-           invalidFields.push($('#birthyear').data('label'));
-    }}
-    var town=form.town.value;
-    if (town==''){
-        invalidFields.push($('#town').data('label'));
-    }
+    Validation.prototype.addCheck = function(field, label, var_checkFunctions){
+        this.validations[field]={
+            label:label,
+            checkFunctions:(var_checkFunctions instanceof Array)?
+                var_checkFunctions:
+                Array.prototype.slice.call(arguments, 2)
+        };
 
-    var university=form.university.value;
-    if (university==''){
-        invalidFields.push($('#university').data('label'));
-    }
-      
-    var graduationyear=form.graduationyear.value;
-    if (graduationyear==''){
-        invalidFields.push($('#graduationyear').data('label'));
-    }
-      
-    var expectations=form.expectations.value;
-    if (expectations==''){
-        invalidFields.push($('#expectations').data('label'));
-    }
+        var eventType=this.form[field].type=='checkbox'?'click':'blur';
+        listenEvent(this.form[field], eventType, this.onFieldBlur,this);
+        listenEvent(this.form[field], 'focus', this.onFieldFocus,this);
 
-    var infosource=form.infosource.value;
-    if (infosource==''){
-        invalidFields.push($('#infosource').data('label'));
-    }
-    
-    var timeforwork=form.timeforwork.value;
-    if (timeforwork==''){
-        invalidFields.push($('#timeforwork').data('label'));
-    }
-
-    var task1=form.task1.value;
-    if (task1==''){
-        invalidFields.push($('#task1').data('label'));
-    }
-    else{
-        if (!(/https?:\/\/[a-z.-_+0-9]+\.[a-z]{2,10}(\/\S+)?/.test(task1))){
-            invalidFields.push($('#task1').data('label'));
+        var errordiv=this.form[field].parentNode.querySelector('.error');
+        if (errordiv){
+            this.form[field].errordiv=errordiv;
         }
-    }
+    };
 
-    var task2=form.task2.value;
-    if (task2==''){
-        invalidFields.push($('#task2').data('label'));
-    }
-    else{
-        if (!(/https?:\/\/[a-z.-_+0-9]+\.[a-z]{2,10}(\/\S+)?/.test(task2))){
-            invalidFields.push($('#task2').data('label'));
+
+    Validation.prototype.getInvalidFields = function(){
+        var invalidFields =[];
+        var currentField;
+        var currentCheck;
+
+        for (var field in this.validations){
+            if (this.validations.hasOwnProperty(field)){
+                currentField = this.validations[field];
+
+                for (var i= 0, l=currentField.checkFunctions.length; i<l; i++){
+                    currentCheck = currentField.checkFunctions[i](this.form[field]);
+
+                    if (currentCheck!== ''){
+                        invalidFields.push({
+                            field:field,
+                            label:currentField.label,
+                            message:currentCheck
+                        });
+                        break;
+                    }
+                }
+            }
         }
-    }
+        return invalidFields;
+    };
 
-    var task3=form.task3.value;
-    if (task3==''){
-        invalidFields.push($('#task3').data('label'));
-    }
-    else{
-        if (!(/https?:\/\/[a-z.-_+0-9]+\.[a-z]{2,10}(\/\S+)?/.test(task3))){
-            invalidFields.push($('#task3').data('label'));
+    Validation.prototype.onFieldBlur = function(evt){
+        evt=evt||window.event;
+        var target=evt.target||evt.srcElement;
+        var invalidFields=this.getInvalidFields();
+        this.updateUI(invalidFields);
+
+        var fieldError =getFieldError(target.id,invalidFields);
+        if (fieldError){
+            target.errordiv=displayError(target,fieldError);
         }
-    }
+    };
 
-
-    if (form.name.value==''){
-        invalidFields.push($('#name').data('label'));
-    }
-
-    if (form.telephone.value==''){
-        invalidFields.push($('#telephone').data('label'));
-    }
-
-    var email=form.email.value;
-    if (email==''){
-        invalidFields.push($('#email').data('label'));
-    }
-    else {
-        if (!(/^[\w-\._\+%]+@(?:[\w-]+\.)+[\w]{2,6}$/.test(email))){
-            invalidFields.push($('#email').data('label'));
+    Validation.prototype.onFieldFocus = function(evt){
+        evt=evt||window.event;
+        var target=evt.target||evt.srcElement;
+        if (target.errordiv){
+            removeError(target.errordiv);
         }
+    };
+
+    Validation.prototype.validate = function(){
+        this.updateUI(this.getInvalidFields());
+    };
+
+    Validation.prototype.updateUI = function(invalidFields){
+        this.submitElement.disabled=invalidFields.length>0;
+        this.indicator.innerHTML=getIndicatorHTML(invalidFields);
+    };
+
+    Validation.emptyField = function(field){
+        return RegEx.NOT_EMPTY.test(field.value)?'':'Поле не должно быть пустым';
+    };
+
+    Validation.email = function(field){
+        return RegEx.EMAIL.test(field.value)?'':'Введите корректный e-mail';
+    };
+
+    Validation.year = function(field){
+        return ((RegEx.YEAR.test(field.value))&&((+field.value>1900)&&
+            (+field.value<new Date().getFullYear())))?'':'Введите год от 1900 до текущего';
+    };
+
+    Validation.url = function(field){
+        return (RegEx.URL.test(field.value))?'':'Введите корректную ссылку';
+    };
+
+    Validation.checkbox = function(field){
+        return (field.checked)?'':'Вы должны принять условия';
+    };
+
+    function displayError(target, msg){
+        var div = document.createElement('div');
+        div.className='error';
+        div.innerHTML=msg;
+        target.parentNode.insertBefore(div, null);
+        return div;
     }
 
-    if (form.resume.value==''){
-        invalidFields.push($('#resume').data('label'));
+    function removeError(div){
+        div.parentNode.removeChild(div);
+        /*div.parentNode.className='accordion-content';   */
     }
 
-    if (invalidFields.length){
-      form.submit.disabled=true;
-      invalidFieldsContainer.innerHTML="<b>Заполните поля: \"</b>";
-      invalidFieldsContainer.innerHTML+=template.invalidFields(invalidFields);
-      invalidFieldsContainer.innerHTML+="\"";
-    } else {
-      invalidFieldsContainer.innerHTML = '';
-      form.submit.disabled = false;
+    function getIndicatorHTML(invalidFields){
+        var output=[];
+        if (invalidFields.length!==0){
+            document.getElementById('invalid_fields').className='';
+            for (var i=0, l=invalidFields.length; i<l; i++){
+                output.push(invalidFields[i].label);
+            }
+            return '<b>Осталось заполнить:</b><br>• '+output.join('<br>• ');
+        }
+        document.getElementById('invalid_fields').className='collapsed';
+        return '';
+    }
+
+    function getFieldError(field,invalidFields){
+        for (var i=0, l=invalidFields.length; i<l; i++){
+            if (field==invalidFields[i].field){
+                return invalidFields[i].message;
+            }
+        }
+        return null;
     }
 
 
-  }
 
-  function removeError(id){
-      document.getElementById(id+"-error").innerHTML = '';
-      document.getElementById(id+"-error").style.padding = '0';
-  }
-
-    function removeError321(id){
-        debugger;
-        document.write('sdfsdf');
-        document.getElementById(id+"-error").innerHTML = '';
-        document.getElementById(id+"-error").style.padding = '0';
-    }
-  function displayError(id){
-      document.getElementById(id+"-error").innerHTML =$('#'+id).data('errormessage');
-      document.getElementById(id+"-error").style.background="#FF9999";
-      document.getElementById(id+"-error").style.padding="2px";
-  }
-
-  function displayEmpty(id){
-      document.getElementById(id+"-error").innerHTML ="Это поле нужно заполнить";
-      document.getElementById(id+"-error").style.background="#FF9999";
-      document.getElementById(id+"-error").style.padding="2px";
-      document.getElementById(id+"-error").style.padding.bottom="1px";
-  }
-
-
-  function onFieldChange(evt){
-    validate();
-  }
-
-  form.addEventListener('blur', onFieldChange, true);
-  form.resume.addEventListener('change', onFieldChange, false);
-
-  validate();
+    window.Validation = Validation;
 })();

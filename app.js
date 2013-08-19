@@ -1,9 +1,9 @@
 (function(){
     var formValidation=new Validation(form,document.getElementById('invalid_fields'));
     formValidation.addCheck('birthyear', 'Год рождения', Validation.emptyField, Validation.year);
-    formValidation.addCheck('graduationyear', 'Год окончания университета', Validation.emptyField, Validation.year);
     formValidation.addCheck('town', 'Город', Validation.emptyField);
     formValidation.addCheck('university', 'Вуз', Validation.emptyField);
+    formValidation.addCheck('graduationyear', 'Год окончания университета', Validation.emptyField, Validation.year);
     formValidation.addCheck('expectations', 'Ожидания от обучения', Validation.emptyField);
     formValidation.addCheck('infosource', 'Откуда узнали о ШРИ', Validation.emptyField);
     formValidation.addCheck('timeforwork', 'Время для Яндекса', Validation.emptyField);

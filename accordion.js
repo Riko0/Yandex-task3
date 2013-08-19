@@ -1,28 +1,43 @@
-var english=0;
+function getAllInputs(form){
+    this.form=form;
+    var inputs=[];
+    inputs=this.form.querySelectorAll('.accordion-title');
+    return inputs;
+};
+
+function listening(inputs){
+    for (var i=0,l=inputs.length;i<l;i++){
+        listenEvent(inputs[i],'click',changeState,this);
+    }
+};
+
+function initAccordion(){
+    listening(getAllInputs(document.forms[0]));
+};
+
 
 function changeState(e){
-    if(document.getElementById(e+"-content").style.display=="none"){
-        open(e);
-    }else{
-        close(e);
-    }
-}
+    var field = getFieldset(e.target);
 
-function changeEnglish(){
-    if (english==0){
-        english=1;
-        open("english");
+    if (field.querySelector('.accordion-content').className=='accordion-content'){
+        $(field.querySelector('.accordion-content')).slideToggle(0);
+        e.field.querySelector('.accordion-content').className='accordion-content-collapsed';
     }
     else{
-        english=0;
-        close("english");
+        $(field.querySelector('.accordion-content-collapsed')).slideToggle(0);
+        field.querySelector('.accordion-content-collapsed').className='accordion-content';
     }
+
+};
+
+function getFieldset(o){
+    debugger;
+    if ((o.parentElement).className=='fieldset')
+        return o.parentElement;
+    if ((o.parentElement.parentElement).className=='fieldset')
+        return o.parentElement.parentElement;
+    if ((o.parentElement.parentElement.parentElement).className=='fieldset')
+        return o.parentElement.parentElement.parentElement;
 }
 
-function open(o){
-    document.getElementById(o+"-content").style.display="block";
-}
-
-function close(o){
-    document.getElementById(o+"-content").style.display="none";
-}
+initAccordion();

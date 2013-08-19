@@ -23,9 +23,9 @@ fieldset{
     -webkit-border-radius: 10px;
     border-radius: 10px;
 
-    -webkit-box-shadow: 0px 1px 5px rgba(50, 50, 50, 0.35);
-    -moz-box-shadow:    0px 1px 5px rgba(50, 50, 50, 0.35);
-    box-shadow:         0px 1px 5px rgba(50, 50, 50, 0.35);
+    -webkit-box-shadow: 0px 1px 5px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    0px 1px 5px rgba(50, 50, 50, 0.5);
+    box-shadow:         0px 1px 5px rgba(50, 50, 50, 0.5);
 }
 
 .layout{
@@ -54,21 +54,40 @@ input{
 
 .accordion-content{
     overflow:hidden;
-    transition:height 0.2s ease-in;
-    -moz-transition:height 0.2s ease-in;
-    -webkit-transition:height 0.2s ease-in;
-
 }
 
-.accordion-content-collapsed{
+.collapsed{
     height:0;
+    padding: 0 !important;
+    border:0 !important;
 }
 
 #submit{
-    zoom:200%
-
+    zoom:2;
+    scale:2;
+    -ms-zoom:1;
 }
 
 .error{
     color: #c00;
+}
+
+#invalid_fields{
+    position: fixed;
+    top:50px;
+    left:1100px;
+    width:200px;
+
+    border:solid 0.5px;
+    border-color: #cc9 ;
+
+    padding: 5px;
+
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+
+    -webkit-box-shadow: 0px 1px 5px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    0px 1px 5px rgba(50, 50, 50, 0.5);
+    box-shadow:         0px 1px 5px rgba(50, 50, 50, 0.5);
 }
